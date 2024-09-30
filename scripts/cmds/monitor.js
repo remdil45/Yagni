@@ -18,7 +18,7 @@ module.exports = {
     try {
       const t = Date.now(); 
 
-      const s = ["Robin", "spider man", "goku", "Remuru","Doreamon"];
+      const s = ["Korean girl", "Japanese girl", "Philippines girl", "Indonesian girl "];
 
       const r = Math.floor(Math.random() * s.length);
       const q = s[r];
