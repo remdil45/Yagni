@@ -34,7 +34,7 @@ module.exports = {
       const categories = {};
       let msg = "";
 
-      msg += `╔═══════════╗\n ★𝙃𝙚𝙮 𝙞𝙖𝙢 XENOZ 𝙜𝙤𝙖𝙩𝙗𝙤𝙩.𝙈𝙮 𝙥𝙧𝙚𝙛𝙞𝙭 . 𝙢𝙮 𝙤𝙬𝙣𝙚𝙧 DENISH THARU. 𝙁𝙗- https://www.facebook.com/profile.php?id=100086747072197&mibextid=kFxxJD 💐\n╚═══════════╝`; // replace with your name 
+      msg += `╔═══════════╗\n ★𝙃𝙚𝙮 𝙞𝙖𝙢 Rozelia 𝙜𝙤𝙖𝙩𝙗𝙤𝙩.𝙈𝙮 𝙥𝙧𝙚𝙛𝙞𝙭 , 𝙢𝙮 𝙤𝙬𝙣𝙚𝙧 DENISH THARU. fb- fb.me/100086747072197&mibextid=kFxxJD 💐\n╚═══════════╝`; // replace with your name 
 
       for (const [name, value] of commands) {
         if (value.config.role > 1 && role < value.config.role) continue;
@@ -65,11 +65,9 @@ module.exports = {
       msg += `🐐 | Ryuk4zi`; // its not decoy so change it if you want 
 
       const helpListImages = [
-        "https://i.ibb.co/2szB2q4/image.jpg", // add image link here
-        "https://i.ibb.co/qNNtQ7n/image.jpg",
-        "https://i.ibb.co/ZKYCpcV/image.jpg",
-        "https://i.ibb.co/0BXSbMN/image.jpg",
-        "https://i.ibb.co/g36mkXJ/image.jpg",
+        "https://i.ibb.co/MS0HCX5/image.jpg",
+        "https://i.ibb.co/KXgJHrb/image.jpg",
+        "https://i.ibb.co/xLQ4zgr/image.jpg",
         // Add more image links as needed
       ];
 
