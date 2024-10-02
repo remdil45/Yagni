@@ -1,9 +1,9 @@
 module.exports = {
   config: {
     name: "ping",
-    aliases: ["p"],
+    aliases: ["Roze"],
     version: "1.0",
-    author: "--USER--",
+    author: "D3nish",
     role: 2,
     shortDescription: {
       en: "Displays the bot's ping and uptime."
@@ -18,7 +18,7 @@ module.exports = {
   },
   onStart: async function ({ api, event }) {
     // Send the initial message
-    api.sendMessage("⏳ Wait boss, checking Yami's ping...", event.threadID, async (err, messageInfo) => {
+    api.sendMessage("⏳ Wait boss, checking Roze's ping...", event.threadID, async (err, messageInfo) => {
       if (err) return console.error(err);
 
       // Wait for a moment to simulate ping check
