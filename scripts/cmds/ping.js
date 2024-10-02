@@ -1,7 +1,7 @@
 module.exports = {
   config: {
     name: "ping",
-    aliases: ["Roze"],
+    aliases: ["p"],
     version: "1.0",
     author: "D3nish",
     role: 2,
