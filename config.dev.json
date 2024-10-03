@@ -1,7 +1,7 @@
 {
   "facebookAccount": {
-    "email": "ddenesh072@gmail.com",
-    "password": "R4kxx000",
+    "email": "",
+    "password": "",
     "2FASecret": "",
     "i_user": "",
     "proxy": null,
@@ -17,18 +17,18 @@
     "ignoreCommand": []
   },
   "adminBot": [
-    "100086747072197",
+    "100089550064027",
     "",
     "",
     "",
     ""
   ],
   "GOD": [
-    "100086747072197",
+    "100089550064027",
     ""
   ],
   "DEV": [
-    "100086747072197",
+    "100089550064027",
     ""
   ],
   "whiteListMode": {
@@ -36,11 +36,11 @@
     "whiteListIds": [],
     "notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
   },
-  "nickNameBot": " ",
-  "authorName": "D'3nish",
+  "nickNameBot": "• ▄︻デ❲•𝐀𝐀𝐃𝐈•❳ 𝙡𝙚𝙜𝙚𝙣𝙙❹❷⓿ 🙄🤠══━一",
+  "authorName": "D3nish",
   "authorFB": "fb.me/100086747072197",
   "authorEmail": "",
-  "prefix": ",",
+  "prefix": "/",
   "database": {
     "type": "sqlite",
     "uriMongodb": "",
