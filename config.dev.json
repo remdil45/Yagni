@@ -41,6 +41,7 @@
   "authorFB": "fb.me/100086747072197",
   "authorEmail": "",
   "prefix": "/",
+  "api": "https://www.noobs-api.000.pe/dipto", 
   "database": {
     "type": "sqlite",
     "uriMongodb": "",
