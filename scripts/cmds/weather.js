@@ -42,10 +42,10 @@ module.exports = {
 
 	langs: {
 		vi: {
-			syntaxError: "Vui lòng nhập địa điểm",
-			notFound: "Không thể tìm thấy địa điểm: %1",
-			error: "Đã xảy ra lỗi: %1",
-			today: "Thời tiết hôm nay: %1\n%2\n🌡 Nhiệt độ thấp nhất - cao nhất %3°C - %4°C\n🌡 Nhiệt độ cảm nhận được %5°C - %6°C\n🌅 Mặt trời mọc %7\n🌄 Mặt trời lặn %8\n🌃 Mặt trăng mọc %9\n🏙️ Mặt trăng lặn %10\n🌞 Ban ngày: %11\n🌙 Ban đêm: %12"
+			syntaxError: "Please enter the location",
+			notFound: "Can't find the location: %1",
+			error: "An error has occurred: %1",
+			today: "Today's weather: %1\n%2\n🌡 Lowest Temperature - Highest %3°C - %4°C\n🌡 Perceived Temperature %5°C - %6°C\n🌅 Sunrise %7\n🌄 Sunset %8\n🌃 Moonrise %9\n🏙️ Sunset Moon %10\n🌞 Day: %11\n🌙 Night: %12"
 		},
 		en: {
 			syntaxError: "Please enter a location",
