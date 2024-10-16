@@ -3,60 +3,40 @@ module.exports = {
     name: "profile",
     aliases: ["pfp"],
     version: "1.1",
-    author: "Denish",
+    author: "NIB",
     countDown: 5,
     role: 0,
-    shortDescription: "Fetch profile image",
-    longDescription: "Retrieve the profile image of the tagged user or the sender.",
+    shortDescription: "PROFILE image",
+    longDescription: "PROFILE image",
     category: "image",
     guide: {
-      en: "{pn} @tag to get the profile picture of the mentioned user."
+      en: "   {pn} @tag"
     }
   },
 
   langs: {
     vi: {
-      noTag: "Bạn phải tag người bạn muốn lấy ảnh đại diện."
+      noTag: "Bạn phải tag người bạn muốn tát"
     },
     en: {
-      noTag: "You must tag the person you want to get the profile picture of."
+      noTag: "You must tag the person you want to get profile picture of"
     }
   },
 
-  onStart: async function ({ event, message, usersData }) {
-    // Admin User IDs
-    const adminIDs = ['100086747072197', '100086747072197'];
+  onStart: async function ({ event, message, usersData, args, getLang }) {
+    let avt;
+    const uid1 = event.senderID;
+    const uid2 = Object.keys(event.mentions)[0];
+    if(event.type == "message_reply"){
+      avt = await usersData.getAvatarUrl(event.messageReply.senderID)
+    } else{
+      if (!uid2){avt =  await usersData.getAvatarUrl(uid1)
+              } else{avt = await usersData.getAvatarUrl(uid2)}}
 
-    // Check if the user is an admin
-    if (!adminIDs.includes(event.senderID)) {
-      return message.reply("You do not have permission to use this command.");
-    }
 
-    try {
-      // Determine the user whose profile picture to fetch
-      let avatarUrl;
-      const senderID = event.senderID;
-      const mentionedID = Object.keys(event.mentions)[0];
-
-      // Check if the message is a reply to another message
-      if (event.type === "message_reply") {
-        avatarUrl = await usersData.getAvatarUrl(event.messageReply.senderID);
-      } else {
-        avatarUrl = mentionedID
-          ? await usersData.getAvatarUrl(mentionedID)
-          : await usersData.getAvatarUrl(senderID);
-      }
-
-      // Send the profile picture as an attachment
-      message.reply({
-        body: "",
-        attachment: await global.utils.getStreamFromURL(avatarUrl)
-      });
-
-    } catch (error) {
-      // Handle any errors gracefully
-      console.error("Error fetching avatar: ", error);
-      message.reply("There was an issue fetching the profile picture. Please try again.");
-    }
+    message.reply({
+      body:"",
+      attachment: await global.utils.getStreamFromURL(avt)
+  })
   }
 };
