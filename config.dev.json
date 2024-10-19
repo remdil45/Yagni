@@ -43,6 +43,8 @@
   "prefix": "/",
   "api": "https://www.noobs-api.000.pe/dipto",
   "rubishapi": "https://rubish-apihub.onrender.com/rubish",
+ API": {
+    "SAMIR": "https://www.samirxpikachu.run.place",
   "database": {
     "type": "sqlite",
     "uriMongodb": "",
