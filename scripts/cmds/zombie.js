@@ -4,13 +4,10 @@ const valentine = {
   author: "Samir Œ",
   countDown: 5,
   role: 0,
-  shortDescription: {
-    en: "Image to zombie"
+  description: {
+    en: "𝗜𝗺𝗮𝗴𝗲 𝘁𝗼 𝘇𝗼𝗺𝗯𝗶𝗲"
   },
-  longDescription: {
-    en: "Image to zombie"
-  },
-  category: "AI",
+  category: "𝗔𝗜",
   guide: {
     en: "{pn} reply to image"
   }
@@ -20,19 +17,19 @@ const valentine = {
 const samirxrichi = async ({ api, event }) => {
   const imageLink = event.messageReply?.attachments[0]?.url;
   if (!imageLink) {
-    return api.sendMessage('Please reply to an image.', event.threadID, event.messageID);
+    return api.sendMessage('𝙿𝚕𝚎𝚊𝚜𝚎 𝚛𝚎𝚙𝚕𝚢 𝚝𝚘 𝚊𝚗 𝚒𝚖𝚊𝚐𝚎.', event.threadID, event.messageID);
   }
 
   try {
-    const apiUrl = `https://samirxpikachuiox.onrender.com/zombie?imgurl=${encodeURIComponent(imageLink)}`;
+    const apiUrl = `${global.GoatBot.config.API.SAMIR}/zombie?imgurl=${encodeURIComponent(imageLink)}`;
     const imageStream = await global.utils.getStreamFromURL(apiUrl);
     if (!imageStream) {
-      return api.sendMessage('Failed to animate the image.', event.threadID, event.messageID);
+      return api.sendMessage('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚊𝚗𝚒𝚖𝚊𝚝𝚎 𝚝𝚑𝚎 𝚒𝚖𝚊𝚐𝚎.', event.threadID, event.messageID);
     }
     return api.sendMessage({ attachment: imageStream }, event.threadID, event.messageID);
   } catch (error) {
     console.log(error);
-    return api.sendMessage('Failed to animate the image.', event.threadID, event.messageID);
+    return api.sendMessage('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚊𝚗𝚒𝚖𝚊𝚝𝚎 𝚝𝚑𝚎 𝚒𝚖𝚊𝚐𝚎.', event.threadID, event.messageID);
   }
 };
 
