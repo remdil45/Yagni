@@ -1,66 +1,50 @@
-const v = require('axios');
-const { GoatWrapper } = require('fca-liane-utils');
-
-module.exports = {
-	config: {
-		name: "fluxpro",
-		aliases: ["fp"],
-		version: "1.0",
-		author: "deku",
-		countDown: 5,
-		role: 0,
-		longDescription: "Generate image from fal ai flux pro",
-		category: "image",
-		guide: {
-			en: "{p}{n} <prompt> | <model_number>"
-		}
-	},
-
-	onStart: async function ({ api: yazky, event: e, args: a }) {
-		try {
-			const { messageID, threadID } = e;
-			const pr = a.join(' ');
-
-			const [p, m] = pr.split(" | ");
-
-			if (!p || !m) {            
-				const o = await new Promise(resolve => {
-					yazky.sendMessage('Please provide a prompt first', threadID, (err, info) => {
-						resolve(info);
-					});
-				});
-				setTimeout(() => {
-					yazky.unsendMessage(o.messageID);
-				}, 7000);
-				return;
-			}
-
-			const cliff = await new Promise(resolve => { 
-				yazky.sendMessage(`֎ 𝖦𝖾𝗇𝖾𝗋𝖺𝗍𝗂𝗇𝗀 𝗂𝗆𝖺𝗀𝖾 please wait...`, threadID, (err, info1) => {
-					resolve(info1);
-				}, messageID);
-			});
-
-			const k = `https://deku-rest-api.gleeze.com/api/flux?prompt=${encodeURIComponent(p)}&model=${m}`;
-
-			const j = await v.get(k, { responseType: 'stream' });
-
-			yazky.unsendMessage(cliff.messageID);
-
-			yazky.sendMessage({ attachment: j.data }, threadID, messageID);
-		} catch (error) {
-			const s = await new Promise(resolve => {
-				yazky.sendMessage(`An error occurred: ${error.message}`, threadID, (err, info) => {
-					resolve(info);
-				});
-			});
-			setTimeout(() => {
-				yazky.unsendMessage(s.messageID);
-			}, 5000);
-			return;
-		}
-	}
+const axios = require("axios");
+const baseApiUrl = async () => {
+  const base = await axios.get(
+    `https://raw.githubusercontent.com/Blankid018/D1PT0/main/baseApiUrl.json`,
+  );
+  return base.data.api;
 };
 
-const wrapper = new GoatWrapper(module.exports);
-wrapper.applyNoPrefix({ allowPrefix: true });
+module.exports.config = {
+  name: "fluxpro",
+  version: "2.0",
+  role: 2,
+  author: "Dipto",
+  description: "Generate images with Flux.1 Pro",
+  category: "𝗜𝗠𝗔𝗚𝗘 𝗚𝗘𝗡𝗘𝗥𝗔𝗧𝗢𝗥",
+  preimum: true,
+  guide: "{pn} [prompt] --ratio 1024x1024\n{pn} [prompt]",
+  countDown: 15,
+};
+
+module.exports.onStart = async ({ message, event, args, api }) => {
+  try {
+  const prompt = args.join(" ");
+  /*let prompt2, ratio;
+  if (prompt.includes("--ratio")) {
+    const parts = prompt.split("--ratio");
+    prompt2 = parts[0].trim();
+    ratio = parts[1].trim();
+  } else {
+    prompt2 = prompt;
+    ratio = "1024x1024";
+  }*/
+    const startTime = new Date().getTime();
+    const ok = message.reply('wait baby <😘')
+    api.setMessageReaction("⌛", event.messageID, (err) => {}, true);
+    const apiUrl = `${await baseApiUrl()}/flux11?prompt=${prompt}`;
+
+    api.setMessageReaction("✅", event.messageID, (err) => {}, true);
+     message.unsend(ok.messageID)
+    const attachment = await global.utils.getStreamFromURL(apiUrl);
+    const endTime = new Date().getTime();
+    await message.reply({
+          body: `Here's your image\nModel Name: "Flux.1 Pro"\nTime Taken: ${(endTime - startTime) / 1000} second/s`, 
+          attachment
+      });
+  } catch (e) {
+    console.log(e);
+    message.reply("Error: " + e.message);
+  }
+};
