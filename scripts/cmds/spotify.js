@@ -1,11 +1,88 @@
-global.api = {
-  samirApi: "https://samirxpikachuiox.onrender.com"
+const axios = require('axios');
+const fs = require('fs-extra');
+const path = require('path');
+
+module.exports = {
+  config: {
+    name: "spotify",
+    author: "Cliff",
+    countDown: 5,
+    role: 0,
+    category: "AUDIO",
+    shortDescription: {
+      en: "Play a song from Spotify"
+    }
+  },
+
+  onStart: async function ({ api, event, args }) {
+    const search = args.join(" ");
+
+    try {
+      if (!search) {
+        const messageInfo = await new Promise(resolve => {
+          api.sendMessage('Please provide the name of the song you want to search.', event.threadID, (err, info) => {
+            resolve(info);
+          });
+        });
+
+        setTimeout(() => {
+          api.unsendMessage(messageInfo.messageID);
+        }, 10000);
+
+        return;
+      }
+
+      const findingMessage = await api.sendMessage(`Searching for "${search}"`, event.threadID);
+
+      const apiUrl = `https://betadash-search-download.vercel.app/spt?search=${encodeURIComponent(search)}&apikey=syugg`;
+      const response = await axios.get(apiUrl);
+
+      if (response.data && response.data.spotify.length > 0) {
+        const firstSong = response.data.spotify[0].result;
+
+        const cacheDir = path.join(__dirname, 'cache');
+        const fileName = `spt.mp3`;
+        const filePath = path.join(cacheDir, fileName);
+
+        fs.ensureDirSync(cacheDir);
+
+        const musicResponse = await axios.get(firstSong, {
+          responseType: 'arraybuffer'
+        });
+
+        fs.writeFileSync(filePath, Buffer.from(musicResponse.data));
+
+        api.sendMessage({
+          body: `Here is your music 👍`,
+          attachment: fs.createReadStream(filePath)
+        }, event.threadID, () => fs.unlinkSync(filePath), event.messageID);
+
+        api.unsendMessage(findingMessage.messageID);
+      } else {
+        const t = await new Promise(resolve => {
+          api.sendMessage('No songs found for the given title.', event.threadID, (err, info) => {
+            resolve(info);
+          });
+        });
+
+        setTimeout(() => {
+          api.unsendMessage(t.messageID);
+        }, 10000);
+
+        return;
+      }
+    } catch (error) {
+      const tf = await new Promise(resolve => {
+        api.sendMessage('An error occurred while searching for the song.', event.threadID, (err, info) => {
+          resolve(info);
+        });
+      });
+
+      setTimeout(() => {
+        api.unsendMessage(tf.messageID);
+      }, 10000);
+
+      return;
+    }
+  }
 };
-const axios=require("axios");const fs=require('fs');function formatDuration(durationMs){const seconds=Math.floor(durationMs/1000);const minutes=Math.floor(seconds/60);const remainingSeconds=seconds%60;return `${padZero(minutes)}:${padZero(remainingSeconds)}`}
-function padZero(value){return value.toString().padStart(2,'0')}
-module.exports={config:{name:"spotify",version:"1.0",author:"Samir Œ",countDown:0,role:0,longDescription:"Get audio from Spotify",category:"𝗠𝗘𝗗𝗜𝗔",guide:"{pn} reply or add link of image"},onStart:async function({api,event,args,message}){const query=args.join(" ");if(!query){return message.reply(" Please provide a track name.")}
-const url=`${global.api.samirApi}/spotifysearch?q=${encodeURIComponent(query)}`;try{const response=await axios.get(url);const tracks=response.data;if(tracks.length===0){return message.reply(" | No tracks found for the given query.")}
-const shuffledTracks=tracks.sort(()=>Math.random()-0.5);const top6Tracks=shuffledTracks.slice(0,6);const trackInfo=top6Tracks.map((track,index)=>`${index + 1}. ${track.title}\nDuration: ${formatDuration(track.durationMs)}\nArtist: ${track.artist}`).join("\n\n");const thumbnails=top6Tracks.map((track)=>track.thumbnail);const attachments=await Promise.all(thumbnails.map((thumbnail)=>global.utils.getStreamFromURL(thumbnail)));const replyMessage=await message.reply({body:`${trackInfo}\n\nType 'next' to see more tracks or reply with a number to choose.`,attachment:attachments,});const data={commandName:this.config.name,messageID:replyMessage.messageID,tracks:response.data,currentIndex:6,originalQuery:query,};global.GoatBot.onReply.set(replyMessage.messageID,data)}catch(error){console.error(error);api.sendMessage("Error: "+error,event.threadID)}},onReply:async function({api,event,Reply,args,message}){const userInput=args[0].toLowerCase();const{tracks,currentIndex,originalQuery,previousMessageID,isFirstReply}=Reply;message.unsend(Reply.messageID);if(!isFirstReply&&previousMessageID&&userInput==='next'){if(!event.messageReply||event.messageReply.senderID!==api.getCurrentUserID()){message.unsend(previousMessageID)}}
-if(userInput==='next'){const nextUrl=`${global.api.samirApi}/spotifysearch?q=${encodeURIComponent(originalQuery)}`;try{const response=await axios.get(nextUrl);const nextTracks=response.data.slice(currentIndex,currentIndex+6);if(nextTracks.length===0){return message.reply("\u26A0 | No more tracks found for the given query.")}
-const trackInfo=nextTracks.map((track,index)=>`${currentIndex + index + 1}. ${track.title}\nDuration: ${formatDuration(track.durationMs)}\nArtist: ${track.artist}`).join("\n\n");const thumbnails=nextTracks.map((track)=>track.thumbnail);const attachments=await Promise.all(thumbnails.map((thumbnail)=>global.utils.getStreamFromURL(thumbnail)));message.reply({body:`${trackInfo}\n\nType 'next' to see more tracks or reply with a number to choose.`,attachment:attachments,},async(replyError,replyMessage)=>{const data={commandName:this.config.name,messageID:replyMessage.messageID,tracks:response.data,currentIndex:currentIndex+6,originalQuery:originalQuery,previousMessageID:replyMessage.messageID,isFirstReply:!1,};global.GoatBot.onReply.set(replyMessage.messageID,data)})}catch(error){console.error(error);api.sendMessage("Error: "+error,event.threadID)}}else if(!isNaN(userInput)&&userInput>=1&&userInput<=tracks.length){const selectedTrack=tracks[userInput-1];message.unsend(Reply.messageID);const downloadingMessage=await message.reply(`| Downloading track "${selectedTrack.title}"`);const downloadUrl=`${global.api.samirApi}/spotifydl?url=${encodeURIComponent(selectedTrack.url)}`;try{const apiResponse=await axios.get(downloadUrl);if(apiResponse.data.success){const metadata=apiResponse.data.metadata;const audioUrl=apiResponse.data.link;const audioUrlString=typeof audioUrl==='string'?audioUrl:audioUrl.toString();const audioResponse=await axios.get(audioUrlString,{responseType:'arraybuffer'});fs.writeFileSync(__dirname+'/cache/spotify.mp3',Buffer.from(audioResponse.data));message.reply({body:`• Title: ${metadata.title}\n• Album: ${metadata.album}\n• Artist: ${metadata.artists}\n• Released: ${metadata.releaseDate}`,attachment:fs.createReadStream(__dirname+'/cache/spotify.mp3')})}else{message.reply("Sorry, the Spotify content could not be downloaded.")}}catch(error){console.error(error);message.reply("Sorry, an error occurred while processing your request.")}
-message.unsend(downloadingMessage.messageID)}}}
