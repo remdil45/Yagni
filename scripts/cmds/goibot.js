@@ -61,7 +61,7 @@ config: {
        };
 
        if ((event.body.toLowerCase() == "🙂") || (event.body.toLowerCase() == "🥺")) {
-         return api.sendMessage("What happen dear why are u sad🙏🙂", threadID);
+         return api.sendMessage("What happen dear 🙏🙂", threadID);
        };
 
        if ((event.body.toLowerCase() == "chup") || (event.body.toLowerCase() == "Chup kar")) {
@@ -73,7 +73,7 @@ config: {
        };
 
        if ((event.body.toLowerCase() == "❤️") || (event.body.toLowerCase() == "🥰")) {
-         return api.sendMessage("Haaye Rabba inna pyar🙊🙊", threadID);
+         return api.sendMessage("😘🙊", threadID);
        };
 
        if ((event.body.toLowerCase() == "👍") || (event.body.toLowerCase() == "thenga")) {
@@ -101,11 +101,11 @@ config: {
        };
 
        if ((event.body.toLowerCase() == "😒")) {
-         return api.sendMessage("idhar udhar kya hai re 😏😑:)", threadID);
+         return api.sendMessage("idhar kon hai😏😑:)", threadID);
        };
 
        if ((event.body.toLowerCase() == "🙄")) {
-         return api.sendMessage("uper kya hai be chimpengi🙄🙄", threadID);
+         return api.sendMessage("uper bhagwan ji hai🙄🙄", threadID);
        };
 
        if ((event.body.toLowerCase() == "nice")) {
