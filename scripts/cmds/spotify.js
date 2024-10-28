@@ -5,6 +5,7 @@ const path = require('path');
 module.exports = {
   config: {
     name: "spotify",
+    aliases: ["play", "music", "song"],
     author: "Cliff",
     countDown: 5,
     role: 0,
